@@ -1,0 +1,30 @@
+version: "3"
+services:
+  server:
+    image: backend
+    ports:
+      - "8082:8080"
+    environment:
+      - spring.datasource.url=jdbcmysqlmysqldb3306crm_api
+      - spring.datasource.username=crmuser
+      - spring.datasource.password=crmuser
+      - spring.jpa.properties.hibernate.dialect= org.hibernate.dialect.MySQL5InnoDBDialect
+      - spring.jpa.hibernate.ddl-auto=create
+      - spring.jpa.show-sql=true
+    networks:
+      - NETWORK
+    depends_on:
+      - mysqldb
+
+  mysqldb:
+    image: mysql5.7
+    networks:
+      - NETWORK
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=crm_api
+      - MYSQL_USER=crmuser
+      - MYSQL_PASSWORD=crmuser
+
+networks:
+  NETWORK
